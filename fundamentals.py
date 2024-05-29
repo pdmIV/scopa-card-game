@@ -13,7 +13,7 @@ class Card:
 
 class Deck:
     def __init__(self, shuffled=False):
-        self.colors = ['clubs', 'spades', 'gold coins', 'cups']
+        self.colors = ['Bastoni', 'Spada', 'Denari', 'Coppe']
         self.values = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
         self.num_cards_in_deck = 40
         self.pile_values = set()
