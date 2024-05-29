@@ -1,5 +1,6 @@
 from fundamentals import Player, Deck, Card
 
+
 class Game:
     def __init__(self):
         self.deck = Deck()
@@ -34,9 +35,19 @@ class Game:
     def reveal_state(self):
         for player in self.players:
             print(player.name + " posesses " + player.reveal())
+            
 
-    #def play_turn(self):
-        #for player in self.players:
+    def play_turn(self):
+        place_downs_left = 3
+        while place_downs_left > 0:
+            for player in self.players:
+                self.print_pile()
+                player.reveal(with_nums=True)
+                num_choice = input("What card do you want to place down? \n")
+                choice = player.hand_num_to_card.pop(num_choice)
+                player.play_card(choice)
+                # TODO: Need to create interaction of choosing card to pick up
+            place_downs_left -= 1
 
 # Run Program - example 2 player game with a shuffled deck
 game = Game()

@@ -44,19 +44,31 @@ class Deck:
 class Player:
     def __init__(self, name: str):
         self.name = name
+        self.hand_num_to_card = dict()
         self.hand = set()
         self.matches = set()
         self.str_cards = ""
         self.num_cards = 0
 
     def recieve_card(self, card: Card):
+        self.num_cards += 1
+        self.hand_num_to_card[self.num_cards] = card
         self.hand.add(card)
         if self.num_cards == 0:
             self.str_cards += card.as_str()
         else:
             addition = ", " + card.as_str()
             self.str_cards += addition
-        self.num_cards += 1
+
+    def play_card(self, card: Card):
+        self.hand.remove(card)
+        self.num_cards -= 1
     
-    def reveal(self):
-        return self.str_cards
+    def reveal(self, with_nums=False):
+        if with_nums == False:
+            return self.str_cards
+        else:
+            pairs = ""
+            for key in self.hand_num_to_card:
+                pairs += str(key) + ") " + self.hand_num_to_card[key]
+            return pairs
