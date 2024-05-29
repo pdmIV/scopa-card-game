@@ -57,9 +57,17 @@ class Game:
         self.deck = Deck()
         self.players = list()
         self.pile = set()
+        self.build_pile()
 
     def add_player(self, name: str):
         self.players.append(Player(name))
+
+    def build_pile(self):
+        starting_pile = 4
+        while starting_pile > 0:
+            self.pile.add(self.deck.cards.popleft())
+            starting_pile -= 1
+            self.deck.num_cards_in_deck -= 1
 
     def deal(self, amount=1):
         if amount <= self.deck.num_cards_in_deck:
