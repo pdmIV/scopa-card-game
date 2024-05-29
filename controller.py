@@ -38,12 +38,11 @@ class Game:
     #def play_turn(self):
         #for player in self.players:
 
-# Run Program - example 3 player game with a shuffled deck
+# Run Program - example 2 player game with a shuffled deck
 game = Game()
 
-game.add_player("Peter")
-game.add_player("Sofia")
-game.add_player("Francesco")
+game.add_player("Player 1")
+game.add_player("Player 2")
 
 game.shuffle_deck()
 game.build_pile()
