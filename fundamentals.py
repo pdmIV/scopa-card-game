@@ -9,6 +9,8 @@ class Card:
 
     def as_str(self):
         return self.value + " of " + self.color
+    def value_as_int(self):
+        return int(self.value)
 
 
 class Deck:
@@ -49,26 +51,36 @@ class Player:
         self.matches = set()
         self.str_cards = ""
         self.num_cards = 0
+        self.points = 0
 
     def recieve_card(self, card: Card):
         self.num_cards += 1
         self.hand_num_to_card[self.num_cards] = card
         self.hand.add(card)
-        if self.num_cards == 0:
-            self.str_cards += card.as_str()
-        else:
-            addition = ", " + card.as_str()
-            self.str_cards += addition
+        self.update_str_cards()
 
     def play_card(self, card: Card):
         self.hand.remove(card)
+        # Find the key corresponding to the card and remove it from the hand_num_to_card dict
+        key_to_remove = None
+        for key, value in self.hand_num_to_card.items():
+            if value == card:
+                key_to_remove = key
+                break
+        if key_to_remove:
+            del self.hand_num_to_card[key_to_remove]
         self.num_cards -= 1
-    
+        self.update_str_cards()
+
+    def update_str_cards(self):
+        self.str_cards = ", ".join([card.as_str() for card in self.hand])
+
     def reveal(self, with_nums=False):
-        if with_nums == False:
+        if not with_nums:
             return self.str_cards
         else:
             pairs = ""
             for key in self.hand_num_to_card:
-                pairs += str(key) + ") " + self.hand_num_to_card[key]
+                pairs += f"{key}) {self.hand_num_to_card[key].as_str()}\n"
             return pairs
+    

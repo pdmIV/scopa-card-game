@@ -1,1 +1,6 @@
 1: Player turns
+    a: handle multiple arguments for picking up cards from the pile
+    b: add valid cards picked up to the player.matches set
+2: Points scoring
+    a: get PointCounter class working
+    b: integrate the PointCounter class into the turns for scopa, and check points at the end
