@@ -64,30 +64,42 @@ class Game:
                 continue
 
             # Logic for picking up cards from the pile
-            pile_choices = list(self.pile)
-            print("Available cards in the pile:")
-            for idx, card in enumerate(pile_choices):
-                print(f"{idx + 1}) {card.as_str()}")
-            
+            pile_choices = self.show_pile_choices()
+
             while True:
+
                 try:
                     pile_choice = int(input("Which card do you want to pick up from the pile? "))
                     if 1 <= pile_choice <= len(pile_choices):
-                        chosen_pile_card = pile_choices[pile_choice - 1]
-                        if chosen_pile_card.value == choice.value:
-                            player.matches.add(choice)
-                            player.matches.add(chosen_pile_card)
-                            self.pile.remove(chosen_pile_card)
-                            print(f"{player.name} picked up {chosen_pile_card.as_str()} from the pile")
-                            break
-                        else:
-                            print("Selected card from the pile does not match. Try again.")
+                        total = choice.value_as_int()
+                        while total > 0:
+                            chosen_pile_card = pile_choices[pile_choice - 1]
+                            if chosen_pile_card.value_as_int() == total:
+                                player.matches.add(choice)
+                                player.matches.add(chosen_pile_card)
+                                self.pile.remove(chosen_pile_card)
+                                print(f"{player.name} picked up {chosen_pile_card.as_str()} from the pile")
+                                break
+                            elif chosen_pile_card.value_as_int() > total:
+                                print("Selected card from the pile does not match. Try again.")
+                            elif chosen_pile_card.value_as_int() < total:
+                                total = total - chosen_pile_card.value_as_int()
+                                player.matches.add(chosen_pile_card)
+                                self.pile.remove(chosen_pile_card)
+                                print(f"{player.name} picked up {chosen_pile_card.as_str()} from the pile")
                     else:
                         print("Invalid choice, please select a valid card number.")
                 except ValueError:
                     print("Invalid input, please enter a number.")
     
             print(f"End of {player.name}'s turn\n")
+
+    def show_pile_choices(self):
+        pile_choices = list(self.pile)
+        print("Available cards in the pile:")
+        for idx, card in enumerate(pile_choices):
+            print(f"{idx + 1}) {card.as_str()}")
+        return pile_choices
     
 class PointCounter:
     def __init__(self, game, players: list):
